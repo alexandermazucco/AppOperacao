@@ -61,7 +61,12 @@
         <!-- Tela de Edição -->
         <div id="tela-edicao" style="display: none;">
             <h2 style="font-size: 18px; margin-bottom: 15px;">Editar Lista de Tarefas</h2>
-            <ol id="lista-tarefas-editor" aria-label="Tarefas do fluxo"></ol>
+            <div class="lista-tarefas-com-rolagem">
+                <ol id="lista-tarefas-editor" aria-label="Tarefas do fluxo"></ol>
+                <div id="barra-rolagem-tarefas" class="barra-rolagem-tarefas" role="scrollbar" aria-label="Rolar lista de tarefas" aria-controls="lista-tarefas-editor" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+                    <div id="puxador-rolagem-tarefas" class="puxador-rolagem-tarefas"></div>
+                </div>
+            </div>
             <div id="formulario-tarefa" class="formulario-tarefa" hidden>
                 <label for="nome-tarefa">Nome da tarefa</label>
                 <input id="nome-tarefa" type="text" required>
@@ -86,6 +91,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=20261016-8"></script>
+    <script src="script.js?v=20261016-9"></script>
 </body>
 </html>

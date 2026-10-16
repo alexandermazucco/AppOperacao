@@ -282,31 +282,83 @@ button:active {
     font-size: 14px;
 }
 
-#lista-tarefas-editor {
-    max-height: 240px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    scrollbar-gutter: stable;
-    scrollbar-width: thin;
-    scrollbar-color: var(--cor-borda-tarefa) var(--cor-superficie-suave);
-    list-style: none;
+.lista-tarefas-com-rolagem {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px;
+    gap: 10px;
+    height: min(240px, 45vh);
     margin-bottom: 16px;
+}
+
+#lista-tarefas-editor {
+    min-width: 0;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    list-style: none;
     text-align: left;
 }
 
-#lista-tarefas-editor::-webkit-scrollbar {
-    width: 12px;
+.lista-tarefas-com-rolagem #lista-tarefas-editor::-webkit-scrollbar {
+    display: none;
+    width: 0;
 }
 
-#lista-tarefas-editor::-webkit-scrollbar-track {
+.barra-rolagem-tarefas {
+    position: relative;
+    width: 44px;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid var(--cor-borda);
+    border-radius: 22px;
     background-color: var(--cor-superficie-suave);
-    border-radius: 6px;
+    cursor: pointer;
+    touch-action: none;
+    user-select: none;
 }
 
-#lista-tarefas-editor::-webkit-scrollbar-thumb {
+.barra-rolagem-tarefas[hidden] {
+    display: none;
+}
+
+.puxador-rolagem-tarefas {
+    position: absolute;
+    top: 0;
+    left: 2px;
+    width: 38px;
+    min-height: 56px;
+    border: 1px solid var(--cor-borda-tarefa);
+    border-radius: 20px;
     background-color: var(--cor-borda-tarefa);
-    border: 2px solid var(--cor-superficie-suave);
-    border-radius: 6px;
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.12);
+    cursor: grab;
+    touch-action: none;
+}
+
+.puxador-rolagem-tarefas::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 3px;
+    border-radius: 2px;
+    background-color: var(--cor-texto-secundario);
+    box-shadow: 0 5px var(--cor-texto-secundario), 0 -5px var(--cor-texto-secundario);
+    content: '';
+    transform: translate(-50%, -50%);
+}
+
+.barra-rolagem-tarefas.arrastando .puxador-rolagem-tarefas {
+    background-color: var(--cor-primaria);
+    border-color: var(--cor-primaria);
+    cursor: grabbing;
+}
+
+.barra-rolagem-tarefas:focus-visible {
+    outline: 2px solid var(--cor-destaque);
+    outline-offset: 2px;
 }
 
 #lista-tarefas-editor li + li {
@@ -411,6 +463,11 @@ button:active {
 
 .botao-editor:hover {
     background-color: var(--cor-primaria-hover);
+}
+
+#acoes-editor .botao-editor:hover {
+    background-color: var(--cor-hover-botoes-iniciais);
+    color: var(--cor-texto-inverso);
 }
 
 .botao-secundario {

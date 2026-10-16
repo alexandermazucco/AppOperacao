@@ -162,6 +162,7 @@ let modoFormularioTarefa = null;
 let indiceAlvoFormulario = null;
 let arrasteTarefa = null;
 let ignorarCliqueAposArraste = false;
+let arrasteBarraTarefas = null;
 
 function atualizarTurnoSelecionado() {
 	const indicador = document.getElementById('turno-selecionado');
@@ -232,6 +233,90 @@ function podeMoverTarefa(indice, destino) {
 	return true;
 }
 
+function sincronizarBarraRolagemTarefas() {
+	const lista = document.getElementById('lista-tarefas-editor');
+	const barra = document.getElementById('barra-rolagem-tarefas');
+	const puxador = document.getElementById('puxador-rolagem-tarefas');
+	const alturaVisivel = lista.clientHeight;
+	const alturaConteudo = lista.scrollHeight;
+
+	if (alturaConteudo <= alturaVisivel + 1) {
+		barra.hidden = true;
+		return;
+	}
+
+	barra.hidden = false;
+	const alturaTrilho = barra.clientHeight;
+	const alturaPuxador = Math.min(alturaTrilho, Math.max(56, alturaTrilho * alturaVisivel / alturaConteudo));
+	const deslocamentoMaximo = alturaTrilho - alturaPuxador;
+	const rolagemMaxima = alturaConteudo - alturaVisivel;
+	const deslocamento = rolagemMaxima > 0 ? lista.scrollTop / rolagemMaxima * deslocamentoMaximo : 0;
+	puxador.style.height = `${alturaPuxador}px`;
+	puxador.style.top = `${deslocamento}px`;
+	barra.setAttribute('aria-valuenow', String(Math.round(rolagemMaxima > 0 ? lista.scrollTop / rolagemMaxima * 100 : 0)));
+}
+
+function atualizarRolagemPeloPonteiro(event) {
+	if (!arrasteBarraTarefas || event.pointerId !== arrasteBarraTarefas.pointerId) return;
+	event.preventDefault();
+	const { lista, barra, puxador, offsetY } = arrasteBarraTarefas;
+	const caixaBarra = barra.getBoundingClientRect();
+	const deslocamentoMaximo = barra.clientHeight - puxador.offsetHeight;
+	const rolagemMaxima = lista.scrollHeight - lista.clientHeight;
+	if (deslocamentoMaximo <= 0 || rolagemMaxima <= 0) return;
+
+	const deslocamento = Math.min(deslocamentoMaximo, Math.max(0, event.clientY - caixaBarra.top - offsetY));
+	lista.scrollTop = deslocamento / deslocamentoMaximo * rolagemMaxima;
+	sincronizarBarraRolagemTarefas();
+}
+
+function iniciarArrasteBarraTarefas(event) {
+	const barra = event.currentTarget;
+	const lista = document.getElementById('lista-tarefas-editor');
+	const puxador = document.getElementById('puxador-rolagem-tarefas');
+	if (lista.scrollHeight <= lista.clientHeight) return;
+
+	const estaNoPuxador = event.target === puxador || puxador.contains(event.target);
+const alturaPuxador = puxador.offsetHeight;
+	arrasteBarraTarefas = {
+		pointerId: event.pointerId,
+		lista,
+		barra,
+		puxador,
+		offsetY: estaNoPuxador ? event.clientY - puxador.getBoundingClientRect().top : alturaPuxador / 2
+	};
+	barra.classList.add('arrastando');
+	barra.setPointerCapture(event.pointerId);
+	if (!estaNoPuxador) atualizarRolagemPeloPonteiro(event);
+	event.preventDefault();
+}
+
+function finalizarArrasteBarraTarefas(event) {
+	if (!arrasteBarraTarefas || event.pointerId !== arrasteBarraTarefas.pointerId) return;
+	arrasteBarraTarefas.barra.classList.remove('arrastando');
+	arrasteBarraTarefas = null;
+}
+
+function inicializarBarraRolagemTarefas() {
+	const lista = document.getElementById('lista-tarefas-editor');
+	const barra = document.getElementById('barra-rolagem-tarefas');
+	lista.addEventListener('scroll', sincronizarBarraRolagemTarefas, { passive: true });
+	barra.addEventListener('pointerdown', iniciarArrasteBarraTarefas);
+	barra.addEventListener('pointermove', atualizarRolagemPeloPonteiro);
+	barra.addEventListener('pointerup', finalizarArrasteBarraTarefas);
+	barra.addEventListener('pointercancel', finalizarArrasteBarraTarefas);
+	barra.addEventListener('keydown', event => {
+		const passo = event.key === 'PageUp' || event.key === 'PageDown' ? lista.clientHeight : 48;
+		if (!['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'].includes(event.key)) return;
+		event.preventDefault();
+		if (event.key === 'Home') lista.scrollTop = 0;
+		else if (event.key === 'End') lista.scrollTop = lista.scrollHeight;
+		else lista.scrollTop += ['ArrowUp', 'PageUp'].includes(event.key) ? -passo : passo;
+	});
+	window.addEventListener('resize', sincronizarBarraRolagemTarefas);
+	sincronizarBarraRolagemTarefas();
+}
+
 function renderizarListaTarefas() {
 	const lista = document.getElementById('lista-tarefas-editor');
 	lista.replaceChildren();
@@ -241,6 +326,7 @@ function renderizarListaTarefas() {
 		itemVazio.className = 'tarefa-editor-vazia';
 		itemVazio.textContent = 'Nenhuma tarefa cadastrada.';
 		lista.appendChild(itemVazio);
+		sincronizarBarraRolagemTarefas();
 		return;
 	}
 
@@ -280,6 +366,7 @@ function renderizarListaTarefas() {
 		item.appendChild(linha);
 		lista.appendChild(item);
 	});
+	sincronizarBarraRolagemTarefas();
 }
 
 function iniciarArrasteTarefa(event, indice, item, lista) {
@@ -689,3 +776,4 @@ function voltarTelaInicial() {
 }
 
 atualizarTurnoSelecionado();
+inicializarBarraRolagemTarefas();
