@@ -270,12 +270,43 @@ button:active {
     gap: 12px;
 }
 
+#acoes-editor {
+    flex-direction: row;
+    gap: 8px;
+}
+
+#acoes-editor .botao-editor {
+    flex: 1;
+    width: auto;
+    padding: 10px 6px;
+    font-size: 14px;
+}
+
 #lista-tarefas-editor {
     max-height: 240px;
-    overflow-y: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cor-borda-tarefa) var(--cor-superficie-suave);
     list-style: none;
     margin-bottom: 16px;
     text-align: left;
+}
+
+#lista-tarefas-editor::-webkit-scrollbar {
+    width: 12px;
+}
+
+#lista-tarefas-editor::-webkit-scrollbar-track {
+    background-color: var(--cor-superficie-suave);
+    border-radius: 6px;
+}
+
+#lista-tarefas-editor::-webkit-scrollbar-thumb {
+    background-color: var(--cor-borda-tarefa);
+    border: 2px solid var(--cor-superficie-suave);
+    border-radius: 6px;
 }
 
 #lista-tarefas-editor li + li {
