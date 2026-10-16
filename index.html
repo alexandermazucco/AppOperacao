@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxo DK2 Serviços</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        <div class="menu-fluxo">
+            <button id="btn-menu-fluxo" type="button" aria-label="Opções do fluxo" aria-haspopup="true" aria-expanded="false" onclick="alternarMenuFluxo()" hidden>&#8942;</button>
+            <div id="opcoes-fluxo" class="opcoes-fluxo" role="menu" hidden>
+                <button type="button" role="menuitem" onclick="pausarFluxo()">Pausar Fluxo</button>
+                <button type="button" role="menuitem" onclick="reiniciarFluxo()">Reiniciar Fluxo</button>
+                <button type="button" role="menuitem" onclick="encerrarFluxo()">Encerrar Fluxo</button>
+            </div>
+        </div>
+        <div class="cabecalho-app">
+            <h1>Turno de Operação</h1>
+            <div id="seletor-turno" class="seletor-turno">
+                <button id="btn-seletor-turno" type="button" aria-label="Selecionar turno" aria-haspopup="true" aria-expanded="false" onclick="alternarMenuTurnos()">
+                    <span aria-hidden="true">&#9776; &#9662;</span>
+                </button>
+                <div id="opcoes-turno" class="opcoes-turno" role="menu" hidden>
+                    <button type="button" role="menuitem" onclick="selecionarTurno('Manhã')">Manhã</button>
+                    <button type="button" role="menuitem" onclick="selecionarTurno('Tarde')">Tarde</button>
+                    <button type="button" role="menuitem" onclick="selecionarTurno('Noite')">Noite</button>
+                </div>
+            </div>
+        </div>
+        <p id="turno-selecionado" hidden></p>
+        
+        <!-- Tela Inicial -->
+        <div id="tela-inicial">
+            <div class="botoes-iniciais">
+                <button id="btn-iniciar" onclick="iniciarExpediente()">Iniciar Expediente</button>
+                <button id="btn-editar" onclick="abrirEditor()">Editar Fluxo</button>
+            </div>
+        </div>
+
+        <!-- Tela da Tarefa -->
+        <div id="tela-tarefa" style="display: none;">
+            <p id="contador-tarefa" style="color: var(--cor-texto-secundario); margin-bottom: 10px;"></p>
+            <h2 id="titulo-tarefa">Aguardando...</h2>
+
+            <div id="estado-pausado" class="estado-pausado" hidden>
+                <p>Fluxo pausado</p>
+                <button type="button" class="botao-secundario" onclick="retomarFluxo()">Despausar Fluxo</button>
+            </div>
+            
+            <div id="controles-tarefa" class="botoes-acao">
+                <button id="btn-concluido" onclick="proximaTarefa()">Concluído</button>
+                <button id="btn-adiar" onclick="adiarTarefa()">Ainda Não</button>
+            </div>
+
+            <p id="mensagem-espera" role="status" aria-live="polite" hidden></p>
+            <button id="btn-voltar-inicio" class="botao-secundario" onclick="voltarTelaInicial()" hidden>Voltar para tela inicial</button>
+        </div>
+
+        <!-- Tela de Edição -->
+        <div id="tela-edicao" style="display: none;">
+            <h2 style="font-size: 18px; margin-bottom: 15px;">Editar Lista de Tarefas</h2>
+            <ol id="lista-tarefas-editor" aria-label="Tarefas do fluxo"></ol>
+            <div id="formulario-tarefa" class="formulario-tarefa" hidden>
+                <label for="nome-tarefa">Nome da tarefa</label>
+                <input id="nome-tarefa" type="text" required>
+                <label for="horario-tarefa">Tempo após o início do expediente</label>
+                <input id="horario-tarefa" type="time" min="00:00" max="12:00">
+                <label for="intervalo-tarefa">Lembrar novamente a cada</label>
+                <div class="entrada-intervalo">
+                    <input id="intervalo-tarefa" type="number" min="1" step="1" required value="5" inputmode="numeric">
+                    <span>minutos</span>
+                </div>
+                <div class="botoes-edicao">
+                    <button class="botao-editor" type="button" onclick="salvarFormularioTarefa()">Salvar</button>
+                    <button class="botao-secundario" type="button" onclick="cancelarFormularioTarefa()">Cancelar</button>
+                </div>
+            </div>
+            <div id="acoes-editor" class="botoes-edicao">
+                <button class="botao-editor" id="btn-adicionar" onclick="adicionarTarefa()">Adicionar</button>
+                <button class="botao-editor" id="btn-editar-tarefa" onclick="editarTarefa()">Editar</button>
+                <button class="botao-editor" id="btn-excluir" onclick="excluirTarefa()">Excluir</button>
+            </div>
+            <button id="btn-voltar" class="botao-secundario" onclick="voltarTelaInicial()">Voltar</button>
+        </div>
+    </div>
+
+    <script src="script.js?v=20261016-8"></script>
+</body>
+</html>

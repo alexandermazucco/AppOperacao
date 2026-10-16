@@ -1,0 +1,458 @@
+:root {
+    --cor-fundo: #0E141E;
+    --cor-superficie: #141A26;
+    --cor-superficie-suave: #212936;
+    --cor-superficie-tarefa: #374151;
+    --cor-superficie-tarefa-hover: #4B5563;
+    --cor-borda-tarefa: #526071;
+    --cor-texto: #F0F2F5;
+    --cor-texto-secundario: #9BA3AF;
+    --cor-texto-inverso: #FFFFFF;
+    --cor-texto-botao-primario: #050B14;
+    --cor-borda: #2A3441;
+    --cor-primaria: #20C5D2;
+    --cor-primaria-hover: #1AA8B3;
+    --cor-hover-botoes-iniciais: #0D6973;
+    --cor-destaque: #20C5D2;
+    --cor-concluido: #047857;
+    --cor-concluido-hover: #065F46;
+    --cor-adiar: #C2410C;
+    --cor-adiar-hover: #9A3412;
+    --cor-neutra: #2A3445;
+    --cor-neutra-hover: #37455B;
+    --sombra-suave: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(180deg, #1A2436 0%, var(--cor-fundo) 100vh);
+    background-attachment: fixed;
+    color: var(--cor-texto);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    user-select: none;
+}
+
+#app-container {
+    position: relative;
+    background: linear-gradient(180deg, #2D394C 0%, var(--cor-superficie) 150px);
+    background-color: var(--cor-superficie);
+    width: 90%;
+    max-width: 400px;
+    padding: 40px 20px;
+    border-radius: 16px;
+    box-shadow: var(--sombra-suave);
+    text-align: center;
+    border-top: 5px solid var(--cor-primaria);
+}
+
+.cabecalho-app {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+h1 {
+    font-size: 22px;
+    margin-bottom: 0;
+    color: var(--cor-texto);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+#turno-selecionado {
+    margin: 0 0 26px;
+    color: var(--cor-texto-secundario);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#turno-selecionado[hidden] {
+    display: none;
+}
+
+.seletor-turno {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.seletor-turno[hidden] {
+    display: none;
+}
+
+#btn-seletor-turno {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid var(--cor-borda);
+    background-color: var(--cor-superficie-suave);
+    color: var(--cor-texto);
+    font-size: 16px;
+}
+
+#btn-seletor-turno:hover {
+    background-color: var(--cor-neutra-hover);
+}
+
+.opcoes-turno {
+    position: absolute;
+    top: 42px;
+    right: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 140px;
+    padding: 8px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    background-color: var(--cor-superficie);
+    box-shadow: var(--sombra-suave);
+}
+
+.opcoes-turno[hidden] {
+    display: none;
+}
+
+.opcoes-turno button {
+    padding: 10px 12px;
+    background-color: transparent;
+    color: var(--cor-texto);
+    font-size: 14px;
+    text-align: left;
+}
+
+.opcoes-turno button:hover {
+    background-color: var(--cor-superficie-suave);
+}
+
+h2#titulo-tarefa {
+    font-size: 20px;
+    margin-bottom: 40px;
+    line-height: 1.4;
+    color: var(--cor-destaque);
+    font-weight: 600;
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+.menu-fluxo {
+    position: absolute;
+    top: 4px;
+    right: 16px;
+    z-index: 2;
+}
+
+#btn-menu-fluxo {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid var(--cor-borda);
+    background-color: var(--cor-superficie-suave);
+    color: var(--cor-texto);
+    font-size: 28px;
+    line-height: 1;
+}
+
+#btn-menu-fluxo[hidden] {
+    display: none;
+}
+
+#btn-menu-fluxo:hover {
+    background-color: var(--cor-neutra-hover);
+}
+
+.opcoes-fluxo {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 190px;
+    padding: 8px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    background-color: var(--cor-superficie);
+    box-shadow: var(--sombra-suave);
+}
+
+.opcoes-fluxo[hidden] {
+    display: none;
+}
+
+.opcoes-fluxo button {
+    padding: 10px 12px;
+    background-color: transparent;
+    color: var(--cor-texto);
+    font-size: 14px;
+    text-align: left;
+}
+
+.opcoes-fluxo button:hover {
+    background-color: var(--cor-superficie-suave);
+}
+
+.estado-pausado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin: 20px 0;
+    color: var(--cor-texto-secundario);
+}
+
+.estado-pausado[hidden] {
+    display: none;
+}
+
+#btn-voltar-inicio {
+    display: block;
+    width: auto;
+    margin: 36px auto 0 0;
+    padding: 10px 14px;
+    font-size: 14px;
+}
+
+#btn-voltar-inicio[hidden] {
+    display: none;
+}
+
+.botoes-iniciais {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.botoes-iniciais button {
+    flex: 1;
+    width: auto;
+    padding: 12px 10px;
+    font-size: 16px;
+}
+
+.botoes-acao {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.botoes-edicao {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#lista-tarefas-editor {
+    max-height: 240px;
+    overflow-y: auto;
+    list-style: none;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+#lista-tarefas-editor li + li {
+    margin-top: 8px;
+}
+
+.linha-tarefa-editor {
+    display: block;
+}
+
+.item-tarefa-editor {
+    width: 100%;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--cor-borda-tarefa);
+    border-radius: 8px;
+    background-color: var(--cor-superficie-tarefa);
+    color: var(--cor-texto-inverso);
+    font-size: 14px;
+    text-align: left;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+
+.item-tarefa-editor:hover {
+    background-color: var(--cor-superficie-tarefa-hover);
+}
+
+.item-tarefa-editor[aria-pressed="true"] {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 2px rgba(32, 197, 210, 0.22);
+}
+
+.item-tarefa-editor.arrastando,
+.item-tarefa-editor.arrastando:active {
+    cursor: grabbing;
+    opacity: 0.55;
+    transform: none;
+}
+
+.alvo-arraste .item-tarefa-editor {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 2px rgba(32, 197, 210, 0.3);
+}
+
+.alvo-arraste-invalido .item-tarefa-editor {
+    border-color: var(--cor-adiar);
+}
+
+.tarefa-editor-vazia {
+    padding: 12px;
+    color: var(--cor-texto-secundario);
+    text-align: center;
+}
+
+.formulario-tarefa {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+    color: var(--cor-texto-secundario);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.formulario-tarefa[hidden] {
+    display: none;
+}
+
+.formulario-tarefa > input,
+.entrada-intervalo input {
+    padding: 10px 12px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    background-color: var(--cor-superficie-suave);
+    color: var(--cor-texto);
+    font-size: 16px;
+}
+
+.formulario-tarefa > input:focus-visible,
+.entrada-intervalo input:focus-visible {
+    outline: 2px solid var(--cor-destaque);
+    outline-offset: 2px;
+}
+
+.entrada-intervalo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.entrada-intervalo input {
+    width: 88px;
+    text-align: center;
+}
+
+.botao-editor {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-botao-primario);
+}
+
+.botao-editor:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+.botao-secundario {
+    background-color: var(--cor-neutra);
+    color: var(--cor-texto-inverso);
+}
+
+.botao-secundario:hover {
+    background-color: var(--cor-neutra-hover);
+}
+
+#btn-voltar {
+    margin-top: 12px;
+}
+
+#btn-iniciar, #btn-editar, .botao-editor {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-botao-primario);
+    box-shadow: 0 4px 12px rgba(32, 197, 210, 0.18);
+}
+
+#btn-iniciar:hover, #btn-editar:hover {
+    background-color: var(--cor-hover-botoes-iniciais);
+    color: var(--cor-texto-inverso);
+}
+
+#btn-concluido {
+    background-color: var(--cor-concluido);
+    color: var(--cor-texto-inverso);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.16);
+}
+
+#btn-concluido:hover {
+    background-color: var(--cor-concluido-hover);
+}
+
+#btn-adiar {
+    background-color: var(--cor-adiar);
+    color: var(--cor-texto-inverso);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.16);
+}
+
+#btn-adiar:hover {
+    background-color: var(--cor-adiar-hover);
+}
+
+.botao-secundario {
+    background-color: var(--cor-neutra);
+    color: var(--cor-texto-inverso);
+}
+
+.botao-secundario:hover {
+    background-color: var(--cor-neutra-hover);
+}
+
+#btn-voltar-fluxo {
+    margin-top: 30px;
+    padding: 12px;
+    font-size: 16px;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    background-color: var(--cor-superficie-suave);
+    color: var(--cor-texto);
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+}
+
+textarea:focus {
+    outline: 2px solid var(--cor-destaque);
+}
